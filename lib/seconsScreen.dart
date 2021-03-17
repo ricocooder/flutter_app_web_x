@@ -12,8 +12,8 @@ class SeconsScreen extends StatefulWidget {
 class _SeconsScreenState extends State<SeconsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<QuerySnapshot>(
+    return SafeArea(
+      child: StreamBuilder<QuerySnapshot>(
         stream: _firestore
             .collection('NWW')
             .doc('Areas')
@@ -37,18 +37,30 @@ class _SeconsScreenState extends State<SeconsScreen> {
             final messageBubble = MessageBubble(
               areaNameFrom: areaName,
               areaIdFrom: areaId,
-                areasCountFrom: areasCount,
+              areasCountFrom: areasCount,
             );
             messageBubbles.add(messageBubble);
           }
           // return ListView(
           //   children: messageBubbles,
           // );
-            return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: messageBubbles,
-          );
+          if (MediaQuery.of(context).size.width <= 1000) {
+            return Scaffold(
+              body: MessageBubble(
+                areaNameFrom: '',
+                areaIdFrom: '',
+                areasCountFrom: 4,
+              ),
+            );
+          } else {
+            return Scaffold(
+              body: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: messageBubbles,
+              ),
+            );
+          }
         },
       ),
     );
@@ -68,42 +80,50 @@ class MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('areaNameFrom: ---------->>>>>>>$areaNameFrom');
-    print('areaIdFrom: ---------->>>>>>>$areaIdFrom');
-    print('areasCountFrom: ---------->>>>>>>$areasCountFrom');
-    print(MediaQuery.of(context).size.width);
+    // print('areaNameFrom: ---------->>>>>>>$areaNameFrom');
+    // print('areaIdFrom: ---------->>>>>>>$areaIdFrom');
+    // print('areasCountFrom: ---------->>>>>>>$areasCountFrom');
+    // print(MediaQuery.of(context).size.width);
+    /*sfsdfsfsdfsfdf*/
 
-    if(MediaQuery.of(context).size.width / areasCountFrom > 240){
+    if (MediaQuery.of(context).size.width >= 1000) {
       return Flexible(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('$areaNameFrom ($areaIdFrom)'),
-            Text('areasCountFrom: $areasCountFrom'),
-            Text('${MediaQuery.of(context).size.width}'),
-            Text('${MediaQuery.of(context).size.width/areasCountFrom}'),
-            EventStream(
-              passedId: areaNameFrom,
+            Text(
+              '$areaNameFrom '
+                  // '($areaIdFrom)'
+                  '',
+              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
-          ],
-        ),
-      );
-    }else{
-      return Flexible(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('$areaNameFrom ($areaIdFrom)'),
+            // Text('$areaNameFrom ($areaIdFrom)'),
             // Text('areasCountFrom: $areasCountFrom'),
             // Text('${MediaQuery.of(context).size.width}'),
-            Text('${MediaQuery.of(context).size.width/areasCountFrom}'),
+            // Text('${MediaQuery.of(context).size.width/areasCountFrom}'),
             EventStream(
               passedId: areaNameFrom,
             ),
           ],
         ),
       );
+    } else {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            'All areas',
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          ),
+          // Text('$areaNameFrom ($areaIdFrom)'),
+          // Text('areasCountFrom: $areasCountFrom'),
+          // Text('${MediaQuery.of(context).size.width}'),
+          Text('${MediaQuery.of(context).size.width / areasCountFrom}'),
+          EventStream(
+            passedId: null,
+          ),
+        ],
+      );
     }
-
   }
 }
