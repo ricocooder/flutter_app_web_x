@@ -8,7 +8,7 @@ class SeconsScreen extends StatefulWidget {
   @override
   _SeconsScreenState createState() => _SeconsScreenState();
 }
-///NWW/Areas/areasTest/001
+
 class _SeconsScreenState extends State<SeconsScreen> {
   @override
   Widget build(BuildContext context) {
@@ -32,17 +32,21 @@ class _SeconsScreenState extends State<SeconsScreen> {
           for (var message in messages) {
             final areaName = message.data()['AreaName'];
             final areaId = message.id;
+            final areasCount = messages.length;
 
             final messageBubble = MessageBubble(
               areaNameFrom: areaName,
               areaIdFrom: areaId,
+                areasCountFrom: areasCount,
             );
             messageBubbles.add(messageBubble);
           }
-          return Row(
+          // return ListView(
+          //   children: messageBubbles,
+          // );
+            return Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            // padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 1.0),
             children: messageBubbles,
           );
         },
@@ -52,118 +56,54 @@ class _SeconsScreenState extends State<SeconsScreen> {
 }
 
 class MessageBubble extends StatelessWidget {
-  MessageBubble(
-      {@required this.areaNameFrom,
-      @required this.areaIdFrom,});
+  MessageBubble({
+    @required this.areaNameFrom,
+    @required this.areaIdFrom,
+    @required this.areasCountFrom,
+  });
 
   final String areaNameFrom;
   final String areaIdFrom;
+  final int areasCountFrom;
 
   @override
   Widget build(BuildContext context) {
     print('areaNameFrom: ---------->>>>>>>$areaNameFrom');
     print('areaIdFrom: ---------->>>>>>>$areaIdFrom');
-    return Flexible(
-      child: Column(
-        // mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text('$areaNameFrom'),
-          Text('$areaIdFrom'),
-          EventStream(passedId: areaNameFrom,),
-        ],
-      ),
-    );
+    print('areasCountFrom: ---------->>>>>>>$areasCountFrom');
+    print(MediaQuery.of(context).size.width);
 
+    if(MediaQuery.of(context).size.width / areasCountFrom > 240){
+      return Flexible(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('$areaNameFrom ($areaIdFrom)'),
+            Text('areasCountFrom: $areasCountFrom'),
+            Text('${MediaQuery.of(context).size.width}'),
+            Text('${MediaQuery.of(context).size.width/areasCountFrom}'),
+            EventStream(
+              passedId: areaNameFrom,
+            ),
+          ],
+        ),
+      );
+    }else{
+      return Flexible(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text('$areaNameFrom ($areaIdFrom)'),
+            // Text('areasCountFrom: $areasCountFrom'),
+            // Text('${MediaQuery.of(context).size.width}'),
+            Text('${MediaQuery.of(context).size.width/areasCountFrom}'),
+            EventStream(
+              passedId: areaNameFrom,
+            ),
+          ],
+        ),
+      );
+    }
 
-
-
-    //   Card(
-    //   shape: RoundedRectangleBorder(
-    //     borderRadius: BorderRadius.all(
-    //       Radius.circular(2.0),
-    //     ),
-    //   ),
-    //   margin: EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
-    //   child: InkWell(
-    //     onTap: () {
-    //       // Navigator.push(
-    //       //     context,
-    //       //     MaterialPageRoute(
-    //       //         builder: (context) => DetailPage(
-    //       //               passedId: '$eventIdFrom',
-    //       //             )));
-    //     },
-    //     onLongPress: () {
-    //       // createDeleteEventDialog(context, eventIdFrom);
-    //     },
-    //     child: Column(
-    //       mainAxisAlignment: MainAxisAlignment.start,
-    //       crossAxisAlignment: CrossAxisAlignment.start,
-    //       children: [
-    //         // CustomCardTwoLine(
-    //         //   firstText: globals.globalLanguage
-    //         //       ? "${translator[14].pl}"
-    //         //       : '${translator[14].en}',
-    //         //   secondText: '$firstRegionFrom/$secondRegionFrom/$thirdRegionFrom',
-    //         //   color: colorPicker(colornumber: firstRegionFrom),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    //         //   child: Text(
-    //         //     globals.globalLanguage
-    //         //         ? "${translator[15].pl} $createTimeFrom"
-    //         //         : '${translator[15].en} $createTimeFrom',
-    //         //   ),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    //         //   child: Divider(
-    //         //     height: 2.0,
-    //         //     color: colorPicker(colornumber: firstRegionFrom),
-    //         //   ),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    //         //   child: Text(
-    //         //     globals.globalLanguage
-    //         //         ? "${translator[16].pl} $creatorEmailFrom"
-    //         //         : '${translator[16].en} $creatorEmailFrom',
-    //         //   ),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    //         //   child: Divider(
-    //         //     height: 2.0,
-    //         //     color: colorPicker(colornumber: firstRegionFrom),
-    //         //   ),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    //         //   child: Text(
-    //         //     globals.globalLanguage
-    //         //         ? "${translator[17].pl} $descriptionFrom"
-    //         //         : '${translator[17].en} $descriptionFrom',
-    //         //   ),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    //         //   child: Divider(
-    //         //     height: 2.0,
-    //         //     color: colorPicker(colornumber: firstRegionFrom),
-    //         //   ),
-    //         // ),
-    //         // Padding(
-    //         //   padding: const EdgeInsets.symmetric(horizontal: 4.0),
-    //         //   child: Text(
-    //         //     globals.globalLanguage
-    //         //         ? "${translator[18].pl} $statusFrom"
-    //         //         : '${translator[18].en} $statusFrom',
-    //         //   ),
-    //         // ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }

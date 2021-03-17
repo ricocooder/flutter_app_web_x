@@ -7,7 +7,8 @@ import 'package:flutter_app_web_x/seconsScreen.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-void main() {
+void main() async {
+  // await Firebase.initializeApp();
   runApp(webWiev());
 }
 
